@@ -1,0 +1,21 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id       String @id @default(uuid())
+    username String @unique
+    password String
+    role     Role   @default(AUTHOR)
+}
+
+enum Role {
+    READER // user can only read posts (unregistered user)
+    AUTHOR // user can CRUD and comment posts
+    ADMIN // AUTHOR + can delete posts of other people (it's me)
+}
