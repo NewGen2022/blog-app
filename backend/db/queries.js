@@ -1,12 +1,16 @@
 const prisma = require('./prismaClient');
+const bcrypt = require('bcryptjs');
 
 // CREATE QUERIES
 const registerUser = async (username, password, role = 'AUTHOR') => {
     try {
+        // Password hashing
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         const user = await prisma.user.create({
             data: {
                 username: username,
-                password: password,
+                password: hashedPassword,
                 role: role,
             },
         });
