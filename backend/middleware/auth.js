@@ -1,6 +1,6 @@
 const { body } = require('express-validator');
-const prisma = require('../db/prismaClient');
 const jwt = require('jsonwebtoken');
+const { getUserByUsername } = require('../db/queries');
 
 // REGISTRATION FUNCTIONS
 const validateRegistration = [
@@ -11,9 +11,7 @@ const validateRegistration = [
         .isLength({ min: 3, max: 20 })
         .withMessage('Username must be between 3 and 20 characters long')
         .custom(async (username) => {
-            const isUserExists = await prisma.user.findUnique({
-                where: { username: username },
-            });
+            const isUserExists = await getUserByUsername(username);
 
             if (isUserExists) {
                 throw new Error('Username already exists');
