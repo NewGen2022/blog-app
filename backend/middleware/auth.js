@@ -1,5 +1,6 @@
 const { body } = require('express-validator');
 const prisma = require('../db/prismaClient');
+const jwt = require('jsonwebtoken');
 
 // REGISTRATION FUNCTIONS
 const validateRegistration = [
@@ -49,6 +50,33 @@ const validateRegistration = [
     }),
 ];
 
+// LOGIN FUNCTIONS
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+        res.status(403).json({ message: 'Access denied. No token provided.' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        req.user = decoded;
+        next();
+    } catch (err) {
+        console.error('Token verification failed:', err);
+        res.status(401).json({ error: 'Invalid token' });
+    }
+};
+
+const generateAccessToken = (user) => {
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: '15m',
+    });
+};
+
 module.exports = {
     validateRegistration,
+    authenticateToken,
+    generateAccessToken,
 };
