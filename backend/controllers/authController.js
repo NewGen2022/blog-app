@@ -6,6 +6,8 @@ const {
 } = require('../db/queries');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { generateAccessToken } = require('../middleware/auth');
 
 const registerController = async (req, res) => {
     // Handles validation errors
