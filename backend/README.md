@@ -17,8 +17,8 @@
 
 ## Installation
 Clone the repository:
-- `git clone https://github.com/blog-app/backend`
-- `cd backend`
+- `git clone https://github.com/NewGen2022/blog-app.git`
+- `cd blog-app/backend`
 ### Install dependencies:
 `npm install`
 ### Create a .env file:
