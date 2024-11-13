@@ -10,6 +10,7 @@ const Register = () => {
     });
 
     const [errors, setErrors] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -21,6 +22,7 @@ const Register = () => {
     const handleRegisterSubmit = async (e) => {
         e.preventDefault();
 
+        setIsLoading(true);
         setErrors([]);
 
         if (registerData.password !== registerData.confirmPassword) {
@@ -57,6 +59,8 @@ const Register = () => {
             } else {
                 setErrors([{ msg: 'Network error or server not reachable.' }]);
             }
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -75,7 +79,7 @@ const Register = () => {
                     ))}
             </div>
 
-            <label htmlFor="username">Username *</label>
+            <label htmlFor="username">Username*</label>
             <input
                 type="text"
                 name="username"
@@ -85,7 +89,7 @@ const Register = () => {
                 required
             />
 
-            <label htmlFor="password">Password *</label>
+            <label htmlFor="password">Password*</label>
             <input
                 type="password"
                 name="password"
@@ -94,7 +98,7 @@ const Register = () => {
                 required
             />
 
-            <label htmlFor="confirmPassword">Confirm password *</label>
+            <label htmlFor="confirmPassword">Confirm password*</label>
             <input
                 type="password"
                 name="confirmPassword"
@@ -103,7 +107,9 @@ const Register = () => {
                 required
             />
 
-            <button type="submit">Register</button>
+            <button type="submit" disabled={isLoading}>
+                {isLoading ? 'Registering...' : 'Register'}
+            </button>
 
             <div className="haveAnAccount">
                 Already have an account? <a href="/auth/login">Log In</a>
