@@ -9,7 +9,7 @@ const Register = () => {
         confirmPassword: '',
     });
 
-    const [errors, setErrors] = useState('');
+    const [errors, setErrors] = useState([]);
 
     const navigate = useNavigate();
 
@@ -21,10 +21,10 @@ const Register = () => {
     const handleRegisterSubmit = async (e) => {
         e.preventDefault();
 
-        setErrors('');
+        setErrors([]);
 
         if (registerData.password !== registerData.confirmPassword) {
-            setErrors('Passwords do not match');
+            setErrors([{ msg: 'Passwords do not match' }]);
             return;
         }
 
@@ -39,15 +39,23 @@ const Register = () => {
         } catch (err) {
             if (err.response) {
                 if (err.response.data.errors) {
-                    const backendErrors = err.response.data.errors.map(
-                        (err) => err.msg
-                    );
-                    setErrors(backendErrors.join(', '));
+                    // Check if errors is already an array
+                    const backendErrors = Array.isArray(
+                        err.response.data.errors
+                    )
+                        ? err.response.data.errors
+                        : [err.response.data.errors];
+
+                    setErrors(backendErrors);
                 } else {
-                    setErrors('An error occurred during registration.');
+                    setErrors([
+                        {
+                            msg: 'An error occurred during registration.',
+                        },
+                    ]);
                 }
             } else {
-                setErrors('Network error or server not reachable.');
+                setErrors([{ msg: 'Network error or server not reachable.' }]);
             }
         }
     };
@@ -61,7 +69,10 @@ const Register = () => {
             <div id="formHeader">Register</div>
 
             <div id="registerErrors" className="authError">
-                {errors && <p>{errors}</p>}
+                {errors &&
+                    errors.map((error, index) => (
+                        <div key={index}>{error.msg}</div>
+                    ))}
             </div>
 
             <label htmlFor="username">Username *</label>
