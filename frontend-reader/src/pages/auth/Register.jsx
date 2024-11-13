@@ -33,13 +33,16 @@ const Register = () => {
         }
 
         try {
-            await axios.post('http://localhost:2020/api/auth/register', {
-                username: registerData.username,
-                password: registerData.password,
-                confirm_password: registerData.confirmPassword,
-            });
+            const response = await axios.post(
+                'http://localhost:2020/api/auth/register',
+                {
+                    username: registerData.username,
+                    password: registerData.password,
+                    confirm_password: registerData.confirmPassword,
+                }
+            );
 
-            navigate('/auth/login');
+            navigate('/auth/login', { state: { msg: response.data.message } });
         } catch (err) {
             if (err.response) {
                 if (err.response.data.errors) {
