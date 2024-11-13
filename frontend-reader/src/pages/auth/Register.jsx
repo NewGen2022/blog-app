@@ -28,6 +28,7 @@ const Register = () => {
 
         if (registerData.password !== registerData.confirmPassword) {
             setErrors([{ msg: 'Passwords do not match' }]);
+            setIsLoading(false);
             return;
         }
 
