@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import AuthErrors from './AuthErrors';
 
 const Register = () => {
     const [registerData, setRegisterData] = useState({
@@ -23,7 +24,7 @@ const Register = () => {
         e.preventDefault();
 
         setIsLoading(true);
-        setErrors([]);
+        setErrors([]); // Clear any previous errors
 
         if (registerData.password !== registerData.confirmPassword) {
             setErrors([{ msg: 'Passwords do not match' }]);
@@ -72,12 +73,7 @@ const Register = () => {
         >
             <div id="formHeader">Register</div>
 
-            <div id="registerErrors" className="authError">
-                {errors &&
-                    errors.map((error, index) => (
-                        <div key={index}>{error.msg}</div>
-                    ))}
-            </div>
+            <AuthErrors errors={errors} />
 
             <label htmlFor="username">Username*</label>
             <input
