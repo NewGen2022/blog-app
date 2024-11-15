@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import AuthErrors from './AuthErrors';
+import { ClipLoader } from 'react-spinners';
 
 const Register = () => {
     const [registerData, setRegisterData] = useState({
@@ -79,7 +80,7 @@ const Register = () => {
 
             <AuthErrors errors={errors} />
 
-            <label htmlFor="username">Username*</label>
+            <label htmlFor="username">Username</label>
             <input
                 type="text"
                 name="username"
@@ -89,7 +90,7 @@ const Register = () => {
                 required
             />
 
-            <label htmlFor="password">Password*</label>
+            <label htmlFor="password">Password</label>
             <input
                 type="password"
                 name="password"
@@ -98,7 +99,7 @@ const Register = () => {
                 required
             />
 
-            <label htmlFor="confirmPassword">Confirm password*</label>
+            <label htmlFor="confirmPassword">Confirm password</label>
             <input
                 type="password"
                 name="confirmPassword"
@@ -107,8 +108,12 @@ const Register = () => {
                 required
             />
 
-            <button type="submit" disabled={isLoading}>
-                {isLoading ? 'Registering...' : 'Register'}
+            <button type="submit" className="authBtn" disabled={isLoading}>
+                {isLoading ? (
+                    <ClipLoader size={10} color="#36d7b7" />
+                ) : (
+                    'Register'
+                )}
             </button>
 
             <div className="haveAnAccount">
