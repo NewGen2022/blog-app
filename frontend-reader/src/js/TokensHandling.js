@@ -21,10 +21,18 @@ const isTokenExpired = (token) => {
 const checkAndRefreshToken = async () => {
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
+
     if (!accessToken || !refreshToken || isTokenExpired(accessToken)) {
-        return await refreshAccessToken(refreshToken);
+        if (!refreshToken) {
+            throw new Error('Please log in again!');
+        }
+        try {
+            return await refreshAccessToken(refreshToken); // Try refreshing the access token
+        } catch (err) {
+            throw new Error('Please log in again!');
+        }
     }
-    return accessToken;
+    return accessToken; // Return the valid access token
 };
 
 export { checkAndRefreshToken, isTokenExpired, refreshAccessToken };
