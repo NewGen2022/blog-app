@@ -3,13 +3,20 @@ import { jwtDecode } from 'jwt-decode';
 
 const refreshAccessToken = async (refreshToken) => {
     if (!refreshToken) throw new Error('Please log in again!');
-    const {
-        data: { accessToken },
-    } = await axios.post('http://localhost:2020/api/auth/refresh', {
-        token: refreshToken,
-    });
-    localStorage.setItem('accessToken', accessToken);
-    return accessToken;
+
+    try {
+        const {
+            data: { accessToken },
+        } = await axios.post('http://localhost:2020/api/auth/refresh', {
+            token: refreshToken,
+        });
+
+        localStorage.setItem('accessToken', accessToken);
+
+        return accessToken;
+    } catch (err) {
+        throw new Error('Failed to refresh access token. Please log in again.');
+    }
 };
 
 const isTokenExpired = (token) => {
