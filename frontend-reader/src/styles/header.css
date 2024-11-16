@@ -1,0 +1,21 @@
+#header {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: var(--emerald-200); /* #FFF5EE, #F7CAC9, #FFFFF0 */
+    min-height: 10vh;
+    padding: 30px 0;
+    border-bottom: 2px solid #00577a;
+    color: var(--emerald-900);
+}
+
+#headerLeftPart {
+    display: flex;
+    align-items: center;
+    font-size: 2em;
+    font-weight: 900;
+}
+
+#headerIcon {
+    width: 1.25em;
+}
