@@ -2,11 +2,9 @@ import PropTypes from 'prop-types';
 
 const AuthErrors = ({ errors }) => {
     return (
-        <div id="registerErrors" className="authErrors">
+        <div className="authErrors">
             {errors &&
-                errors.map((error, index) => (
-                    <div key={index}>{error.msg}</div>
-                ))}
+                errors.map((error, index) => <p key={index}>{error.msg}</p>)}
         </div>
     );
 };
