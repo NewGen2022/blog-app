@@ -4,7 +4,7 @@
     flex-direction: column;
     width: 50%;
     min-width: 270px;
-    margin: 20vh auto;
+    margin: 5vh auto;
     box-sizing: border-box;
 }
 
@@ -62,4 +62,22 @@
 #registerForm a:visited,
 #loginForm a:visited {
     color: var(--emerald-600);
+}
+
+.authErrors {
+    background-color: var(--dark-wine-red);
+    border: 1px solid var(--red);
+    padding: 0 7px;
+    border-radius: 5px;
+    color: var(--soft-light-pink);
+}
+.authErrors p::before {
+    content: '•';
+    color: var(--soft-light-pink);
+    font-size: 1em;
+    margin-right: 10px;
+}
+
+#horizontal-line {
+    border: 1px solid var(--emerald-800);
 }
