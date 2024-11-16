@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
+import Header from '../Header';
 
 const Login = () => {
     const location = useLocation();
@@ -69,12 +70,18 @@ const Login = () => {
 
     return (
         <>
+            <Header />
+
             {isRegisteredMsg && <div>{isRegisteredMsg}</div>}
 
             <form id="loginForm" className="form" onSubmit={handleLoginSubmit}>
                 <div id="formHeader">Login</div>
 
-                <AuthErrors errors={errors} />
+                {errors.length > 0 ? (
+                    <AuthErrors errors={errors} />
+                ) : (
+                    <div id="horizontal-line"></div>
+                )}
 
                 <label htmlFor="username">Username</label>
                 <input
@@ -99,7 +106,7 @@ const Login = () => {
                     {isLoading ? (
                         <ClipLoader size={10} color="#36d7b7" />
                     ) : (
-                        'Log in'
+                        'Log In'
                     )}
                 </button>
 
