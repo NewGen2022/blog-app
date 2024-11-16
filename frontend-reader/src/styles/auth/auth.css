@@ -1,0 +1,65 @@
+#registerForm,
+#loginForm {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    min-width: 270px;
+    margin: 20vh auto;
+    box-sizing: border-box;
+}
+
+#formHeader {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+#registerForm label,
+#loginForm label {
+    margin: 15px 0 5px 0;
+}
+
+#registerForm input,
+#loginForm input {
+    outline: none;
+    padding: 7px;
+    padding-left: 12px;
+    color: var(--emerald-50);
+    background-color: var(--emerald-900);
+    border: 1px solid var(--emerald-500);
+    border-radius: 5px;
+    font-size: 1em;
+}
+#registerForm input:focus,
+#loginForm input:focus {
+    box-shadow: 0 0 7px var(--emerald-400);
+}
+
+.authBtn {
+    outline: none;
+    align-self: flex-start;
+    margin: 20px 0;
+    border: 2px solid var(--emerald-500);
+    border-radius: 5px;
+    padding: 10px 50px;
+    font-size: 0.8em;
+    font-weight: 900;
+    background-color: var(--emerald-950);
+    color: var(--emerald-50);
+}
+.authBtn:hover {
+    background-color: var(--emerald-700);
+    border: 2px solid var(--emerald-400);
+}
+.authBtn:active {
+    transform: scale(0.9);
+}
+
+#registerForm a,
+#loginForm a {
+    color: var(--emerald-400);
+}
+#registerForm a:visited,
+#loginForm a:visited {
+    color: var(--emerald-600);
+}
