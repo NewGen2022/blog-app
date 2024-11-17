@@ -3,6 +3,7 @@ const {
     getUserByUsernameDB,
     getRefreshTokenDB,
     createRefreshTokenDB,
+    deleteRefreshTokenDB,
 } = require('../db/queries');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
@@ -77,6 +78,28 @@ const loginController = async (req, res) => {
     }
 };
 
+const logoutController = async (req, res) => {
+    const { refreshToken } = req.body;
+
+    if (!refreshToken) {
+        return res.status(400).json({ error: 'Refresh token required' });
+    }
+
+    try {
+        const storedToken = await getRefreshTokenDB(refreshToken);
+
+        if (!storedToken) {
+            return res.status(404).json({ error: 'Invalid refresh token' });
+        }
+
+        await deleteRefreshTokenDB(refreshToken);
+
+        res.status(200).json({ message: 'Logged out successfully' });
+    } catch (err) {
+        res.status(500).json({ error: 'Internal server error during logout' });
+    }
+};
+
 const tokenController = async (req, res) => {
     const { token: refreshToken } = req.body;
 
@@ -118,4 +141,9 @@ const tokenController = async (req, res) => {
     }
 };
 
-module.exports = { registerController, loginController, tokenController };
+module.exports = {
+    registerController,
+    loginController,
+    logoutController,
+    tokenController,
+};
