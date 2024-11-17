@@ -12,11 +12,13 @@
     font-size: 2em;
     font-weight: 700;
     margin-bottom: 10px;
+    color: var(--emerald-100);
 }
 
 #registerForm label,
 #loginForm label {
     margin: 15px 0 5px 0;
+    color: var(--emerald-100);
 }
 
 #registerForm input,
@@ -55,12 +57,15 @@
     transform: scale(0.9);
 }
 
-#registerForm a,
-#loginForm a {
+.haveAnAccount {
+    color: var(--emerald-100);
+}
+.haveAnAccount a,
+.haveAnAccount a {
     color: var(--emerald-400);
 }
-#registerForm a:visited,
-#loginForm a:visited {
+.haveAnAccount a:visited,
+.haveAnAccount a:visited {
     color: var(--emerald-600);
 }
 
