@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import AuthErrors from './AuthErrors';
@@ -6,6 +6,15 @@ import { ClipLoader } from 'react-spinners';
 import Header from '../Header';
 
 const Register = () => {
+    const navigate = useNavigate();
+
+    // Redirect if the user is already logged in
+    useEffect(() => {
+        if (localStorage.getItem('accessToken')) {
+            navigate('/', { replace: true });
+        }
+    }, [navigate]);
+
     const [registerData, setRegisterData] = useState({
         username: '',
         password: '',
@@ -15,11 +24,11 @@ const Register = () => {
     const [errors, setErrors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const navigate = useNavigate();
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setRegisterData({ ...registerData, [name]: value });
+    const handleChange = ({ target: { name, value } }) => {
+        setRegisterData((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
     };
 
     const handleRegisterSubmit = async (e) => {
@@ -35,7 +44,7 @@ const Register = () => {
         }
 
         try {
-            const response = await axios.post(
+            const { data } = await axios.post(
                 'http://localhost:2020/api/auth/register',
                 {
                     username: registerData.username,
@@ -44,28 +53,16 @@ const Register = () => {
                 }
             );
 
-            navigate('/auth/login', { state: { msg: response.data.message } });
+            navigate('/auth/login', { state: { msg: data.message } });
         } catch (err) {
-            if (err.response) {
-                if (err.response.data.errors) {
-                    // Check if errors is already an array
-                    const backendErrors = Array.isArray(
-                        err.response.data.errors
-                    )
-                        ? err.response.data.errors
-                        : [err.response.data.errors];
-
-                    setErrors(backendErrors);
-                } else {
-                    setErrors([
-                        {
-                            msg: 'An error occurred during registration.',
-                        },
-                    ]);
-                }
-            } else {
-                setErrors([{ msg: 'Network error or server not reachable.' }]);
-            }
+            const errorMessage =
+                err.response?.data?.errors ||
+                'An error occurred during registration.';
+            setErrors(
+                Array.isArray(errorMessage)
+                    ? errorMessage
+                    : [{ msg: errorMessage }]
+            );
         } finally {
             setIsLoading(false);
         }
@@ -85,7 +82,7 @@ const Register = () => {
                 {errors.length > 0 ? (
                     <AuthErrors errors={errors} />
                 ) : (
-                    <div id="horizontal-line"></div>
+                    <div id="horizontal-line" />
                 )}
 
                 <label htmlFor="username">Username</label>
