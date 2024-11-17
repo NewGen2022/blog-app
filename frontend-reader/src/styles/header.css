@@ -5,7 +5,7 @@
     background-color: var(--emerald-200); /* #FFF5EE, #F7CAC9, #FFFFF0 */
     min-height: 10vh;
     padding: 30px 0;
-    border-bottom: 2px solid #00577a;
+    border-bottom: 2px solid var(--emerald-100);
     color: var(--emerald-800);
 }
 
