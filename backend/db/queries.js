@@ -57,15 +57,17 @@ const getUserByUsernameDB = async (username) => {
     }
 };
 
-const getRefreshTokenDB = async () => {
-    try {
-        return await prisma.refreshToken.findUnique({
-            where: { token: refreshToken },
-        });
-    } catch (err) {
-        console.error('Error fetching refresh token:', err);
-        throw new Error('Error fetching refresh token');
-    }
+const getRefreshTokenDB = async (refreshToken) => {
+    return await prisma.refreshToken.findUnique({
+        where: { token: refreshToken },
+    });
+};
+
+// DELETE QUERIES
+const deleteRefreshTokenDB = async (refreshToken) => {
+    return await prisma.refreshToken.delete({
+        where: { token: refreshToken },
+    });
 };
 
 module.exports = {
@@ -73,4 +75,5 @@ module.exports = {
     getUserByUsernameDB,
     getRefreshTokenDB,
     createRefreshTokenDB,
+    deleteRefreshTokenDB,
 };
