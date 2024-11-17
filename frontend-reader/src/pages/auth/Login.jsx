@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import AuthErrors from './AuthErrors';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
@@ -8,7 +8,18 @@ import Header from '../Header';
 
 const Login = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const isRegisteredMsg = location.state?.msg;
+
+    // Check if the user is already logged in
+    const accessToken = localStorage.getItem('accessToken');
+
+    useEffect(() => {
+        if (accessToken) {
+            // Redirect logged-in users away from the login page
+            navigate('/', { replace: true });
+        }
+    }, [accessToken, navigate]);
 
     const [loginData, setLoginData] = useState({
         username: '',
@@ -16,8 +27,7 @@ const Login = () => {
     });
     const [errors, setErrors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
-    const navigate = useNavigate();
+    const [showSuccessMsg, setShowSuccessMsg] = useState(false);
 
     const handleLoginSubmit = async (e) => {
         e.preventDefault();
@@ -39,25 +49,11 @@ const Login = () => {
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
 
-            navigate('/');
+            navigate('/', { replace: true });
         } catch (err) {
-            if (err.response) {
-                if (err.response.data.error) {
-                    setErrors([
-                        {
-                            msg: err.response.data.error,
-                        },
-                    ]);
-                } else {
-                    setErrors([
-                        {
-                            msg: 'An error occurred during log in.',
-                        },
-                    ]);
-                }
-            } else {
-                setErrors([{ msg: 'Network error or server not reachable.' }]);
-            }
+            const errorMessage =
+                err.response?.data?.error || 'An error occurred during login.';
+            setErrors([{ msg: errorMessage }]);
         } finally {
             setIsLoading(false);
         }
@@ -68,11 +64,29 @@ const Login = () => {
         setLoginData({ ...loginData, [name]: value });
     };
 
+    useEffect(() => {
+        if (isRegisteredMsg) {
+            setShowSuccessMsg(true);
+
+            // Hide success message after 4 seconds
+            const timeout = setTimeout(() => {
+                setShowSuccessMsg(false);
+            }, 4000);
+
+            return () => clearTimeout(timeout);
+        }
+    }, [isRegisteredMsg]);
+
     return (
         <>
             <Header />
 
-            {isRegisteredMsg && <div>{isRegisteredMsg}</div>}
+            {isRegisteredMsg && showSuccessMsg && (
+                <div id="successContainer">
+                    <div id="successRegistrationMsg">{isRegisteredMsg}</div>
+                    <div id="progressBar"></div>
+                </div>
+            )}
 
             <form id="loginForm" className="form" onSubmit={handleLoginSubmit}>
                 <div id="formHeader">Login</div>
