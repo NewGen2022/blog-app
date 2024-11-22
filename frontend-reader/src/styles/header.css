@@ -1,6 +1,6 @@
 #header {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
     background-color: var(--emerald-200); /* #FFF5EE, #F7CAC9, #FFFFF0 */
     min-height: 10vh;
@@ -60,4 +60,26 @@
 
 #headerAuthActions img {
     width: 20px;
+}
+
+@media (max-width: 520px) {
+    #header {
+        flex-direction: column;
+        gap: 20px;
+        position: relative;
+    }
+
+    #header::before {
+        content: '';
+        position: absolute;
+        width: 70%;
+        top: 35%;
+        height: 1px;
+        border-radius: 10px;
+        background-color: var(--emerald-900); /* Match or customize the color */
+    }
+
+    #headerAuthActions {
+        flex-direction: column;
+    }
 }
