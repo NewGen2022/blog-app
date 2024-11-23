@@ -11,20 +11,68 @@ model User {
     id            String         @id @default(uuid())
     username      String         @unique
     password      String
-    role          Role           @default(AUTHOR)
+    role          Role           @default(COMMENTATOR)
     refreshTokens RefreshToken[]
+    posts         Post[]
+    comments      Comment[]
+    createdAt     DateTime       @default(now())
 }
 
 model RefreshToken {
     id        String   @id @default(uuid())
     token     String   @unique
     expiresAt DateTime
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String
+}
+
+model Post {
+    id        String     @id @default(uuid())
+    name      String
+    content   String
+    status    PostStatus @default(DRAFT)
+    author    User       @relation(fields: [authorId], references: [id])
+    authorId  String
+    tags      Tag[]      @relation("PostTag")
+    PostTag   PostTag[]
+    Comment   Comment[]
+    createdAt DateTime   @default(now())
+}
+
+model Comment {
+    id        String   @id @default(uuid())
+    text      String
     user      User     @relation(fields: [userId], references: [id])
     userId    String
+    Post      Post?    @relation(fields: [postId], references: [id])
+    postId    String?
+    createdAt DateTime @default(now())
+}
+
+model Tag {
+    id        String    @id @default(uuid())
+    name      String
+    posts     Post[]    @relation("PostTag")
+    PostTag   PostTag[]
+    createdAt DateTime  @default(now())
+}
+
+model PostTag {
+    postId String
+    tagId  String
+    post   Post   @relation(fields: [postId], references: [id])
+    tag    Tag    @relation(fields: [tagId], references: [id])
+
+    @@id([postId, tagId])
 }
 
 enum Role {
     READER // user can only read posts (unregistered user)
-    AUTHOR // user can CRUD and comment posts
-    ADMIN // AUTHOR + can delete posts of other people (it's me)
+    COMMENTATOR // user can comment posts
+    ADMIN // AUTHOR + CRUD posts + can delete posts of other people (it's me ;))
+}
+
+enum PostStatus {
+    DRAFT
+    PUBLISHED
 }
