@@ -2,7 +2,7 @@ const prisma = require('./prismaClient');
 const bcrypt = require('bcryptjs');
 
 // CREATE QUERIES
-const registerDB = async (username, password, role = 'AUTHOR') => {
+const registerDB = async (username, password, role = 'COMMENTATOR') => {
     try {
         // Password hashing
         const hashedPassword = await bcrypt.hash(password, 12);
