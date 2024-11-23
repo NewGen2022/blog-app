@@ -57,7 +57,7 @@ const Header = () => {
 
             <div id="headerRightPart">
                 <div id="headerLoginStatus">
-                    {user ? `Logged in as ${user.username}` : 'Not logged in'}
+                    {user ? `Welcome, ${user.username}` : 'Not logged in'}
                 </div>
                 <div id="headerAuthActions">
                     {user ? (
