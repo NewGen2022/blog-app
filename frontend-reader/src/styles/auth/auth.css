@@ -4,7 +4,7 @@
     flex-direction: column;
     width: 50%;
     min-width: 270px;
-    margin: 8vh auto;
+    margin: 7vh auto;
     box-sizing: border-box;
 }
 
@@ -127,8 +127,9 @@
     }
 }
 
-@media (max-width: 705px) {
-    #success-container {
-        top: 30vh;
+@media (max-width: 520px) {
+    #successContainer {
+        top: 33vh;
+        text-align: center;
     }
 }
