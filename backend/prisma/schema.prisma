@@ -28,40 +28,42 @@ model RefreshToken {
 
 model Post {
     id        String     @id @default(uuid())
-    name      String
-    content   String
+    name      String     @db.VarChar(255)
+    content   String     @db.Text
     status    PostStatus @default(DRAFT)
-    author    User       @relation(fields: [authorId], references: [id])
+    author    User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
     authorId  String
     tags      Tag[]      @relation("PostTag")
-    PostTag   PostTag[]
-    Comment   Comment[]
+    postTag   PostTag[]
+    comment   Comment[]
     createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
 }
 
 model Comment {
     id        String   @id @default(uuid())
-    text      String
-    user      User     @relation(fields: [userId], references: [id])
+    text      String   @db.Text
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId    String
-    Post      Post?    @relation(fields: [postId], references: [id])
-    postId    String?
+    post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+    postId    String
     createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Tag {
     id        String    @id @default(uuid())
-    name      String
+    name      String    @unique @db.VarChar(50)
     posts     Post[]    @relation("PostTag")
-    PostTag   PostTag[]
+    postTag   PostTag[]
     createdAt DateTime  @default(now())
 }
 
 model PostTag {
     postId String
     tagId  String
-    post   Post   @relation(fields: [postId], references: [id])
-    tag    Tag    @relation(fields: [tagId], references: [id])
+    post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+    tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
     @@id([postId, tagId])
 }
@@ -69,7 +71,7 @@ model PostTag {
 enum Role {
     READER // user can only read posts (unregistered user)
     COMMENTATOR // user can comment posts
-    ADMIN // AUTHOR + CRUD posts + can delete posts of other people (it's me ;))
+    ADMIN // COMMENTATOR + CRUD posts + can delete posts of other people (it's me ;))
 }
 
 enum PostStatus {
