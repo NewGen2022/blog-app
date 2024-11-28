@@ -45,6 +45,37 @@ const createRefreshTokenDB = async (refreshToken, userId) => {
     }
 };
 
+const createPostDB = async (name, content, status, authorId, tags) => {
+    try {
+        // First, ensure all tags exist, create them if they don't
+        const tagObjects = await getTagByNameDB(tags);
+
+        // Create post with tag connections using IDs
+        const post = await prisma.post.create({
+            data: {
+                name: name,
+                content: content,
+                status: status,
+                authorId: authorId,
+                postTag: {
+                    create: tagObjects.map((tag) => ({
+                        tag: {
+                            connect: {
+                                id: tag.id,
+                            },
+                        },
+                    })),
+                },
+            },
+        });
+
+        return post;
+    } catch (err) {
+        console.error('Error creating post:', err);
+        throw new Error('Error creating post in DB');
+    }
+};
+
 // GET QUERIES
 const getUserByUsernameDB = async (username) => {
     try {
@@ -63,6 +94,25 @@ const getRefreshTokenDB = async (refreshToken) => {
     });
 };
 
+const getTagByNameDB = async (tags) => {
+    try {
+        const tagObjects = await Promise.all(
+            tags.map((tag) => {
+                return prisma.tag.upsert({
+                    where: { name: tag },
+                    update: {},
+                    create: { name: tag },
+                });
+            })
+        );
+
+        return tagObjects;
+    } catch (err) {
+        console.error('Error fetching tags:', err);
+        throw new Error('Error fetching tags from DB');
+    }
+};
+
 // DELETE QUERIES
 const deleteRefreshTokenDB = async (refreshToken) => {
     return await prisma.refreshToken.delete({
@@ -75,5 +125,6 @@ module.exports = {
     getUserByUsernameDB,
     getRefreshTokenDB,
     createRefreshTokenDB,
+    createPostDB,
     deleteRefreshTokenDB,
 };
