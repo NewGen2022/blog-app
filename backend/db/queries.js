@@ -76,6 +76,21 @@ const createPostDB = async (name, content, status, authorId, tags) => {
     }
 };
 
+const createCommentDB = async (content, authorId, postId) => {
+    try {
+        return await prisma.comment.create({
+            data: {
+                text: content,
+                userId: authorId,
+                postId: postId,
+            },
+        });
+    } catch (err) {
+        console.error('Error creating comment:', err);
+        throw new Error('Error creating comment in DB');
+    }
+};
+
 // GET QUERIES
 const getUserByUsernameDB = async (username) => {
     try {
@@ -126,5 +141,6 @@ module.exports = {
     getRefreshTokenDB,
     createRefreshTokenDB,
     createPostDB,
+    createCommentDB,
     deleteRefreshTokenDB,
 };
