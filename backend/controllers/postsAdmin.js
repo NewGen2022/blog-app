@@ -1,4 +1,4 @@
-const { createPostDB } = require('../db/queries');
+const { createPostDB, createCommentDB } = require('../db/queries');
 
 const getAllPosts = () => {};
 const getAllDraftPosts = () => {};
@@ -31,16 +31,46 @@ const createPost = async (req, res) => {
     }
 };
 
+const addComment = async (req, res) => {
+    const { content, authorId, postId } = req.body;
+
+    if (!content) {
+        return res.status(400).json({ message: 'Missing comment content' });
+    }
+    if (!authorId) {
+        return res.status(400).json({ message: 'Missing author ID' });
+    }
+    if (!postId) {
+        return res.status(400).json({ message: 'Missing post ID' });
+    }
+
+    try {
+        await createCommentDB(content, authorId, postId);
+
+        res.status(201).json({ message: 'Comment added successfully' });
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error adding comment',
+            error: err.message,
+        });
+    }
+};
+
+const getComments = () => {};
 const updatePost = () => {};
 const updatePostStatus = () => {};
 const deletePost = () => {};
+const deleteComment = () => {};
 
 module.exports = {
     getAllPosts,
     getAllDraftPosts,
     getPost,
     createPost,
+    addComment,
+    getComments,
     updatePost,
     updatePostStatus,
     deletePost,
+    deleteComment,
 };
