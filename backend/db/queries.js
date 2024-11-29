@@ -139,6 +139,19 @@ const getCommentsDB = async (postId) => {
     }
 };
 
+const getAllPostsDB = async () => {
+    try {
+        return await prisma.post.findMany({
+            include: {
+                _count: { select: { comment: true } },
+            },
+        });
+    } catch (err) {
+        console.error('Error fetching all posts:', err);
+        throw new Error('Error fetching all posts from DB');
+    }
+};
+
 // DELETE QUERIES
 const deleteRefreshTokenDB = async (refreshToken) => {
     return await prisma.refreshToken.delete({
@@ -151,6 +164,7 @@ module.exports = {
     getUserByUsernameDB,
     getRefreshTokenDB,
     getCommentsDB,
+    getAllPostsDB,
     createRefreshTokenDB,
     createPostDB,
     createCommentDB,
