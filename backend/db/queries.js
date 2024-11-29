@@ -139,10 +139,10 @@ const getCommentsDB = async (postId) => {
     }
 };
 
-const getAllPostsDB = async (status = 'PUBLISHED') => {
+const getAllPostsDB = async () => {
     try {
         return await prisma.post.findMany({
-            where: { status: status },
+            where: { status: 'PUBLISHED' },
             include: {
                 _count: { select: { comment: true } },
             },

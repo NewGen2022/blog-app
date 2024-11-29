@@ -6,10 +6,8 @@ const {
 } = require('../db/queries');
 
 const getAllPosts = async (req, res) => {
-    const { status } = req.query;
-
     try {
-        const posts = await getAllPostsDB(status);
+        const posts = await getAllPostsDB();
         res.status(200).json(posts);
     } catch (err) {
         console.error('Error fetching posts:', err);
