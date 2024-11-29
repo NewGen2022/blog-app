@@ -128,6 +128,17 @@ const getTagByNameDB = async (tags) => {
     }
 };
 
+const getCommentsDB = async (postId) => {
+    try {
+        return await prisma.comment.findMany({
+            where: { postId: postId },
+        });
+    } catch (err) {
+        console.error('Error fetching comments:', err);
+        throw new Error('Error fetching comments from DB');
+    }
+};
+
 // DELETE QUERIES
 const deleteRefreshTokenDB = async (refreshToken) => {
     return await prisma.refreshToken.delete({
@@ -139,6 +150,7 @@ module.exports = {
     registerDB,
     getUserByUsernameDB,
     getRefreshTokenDB,
+    getCommentsDB,
     createRefreshTokenDB,
     createPostDB,
     createCommentDB,
