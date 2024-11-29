@@ -1,4 +1,8 @@
-const { createPostDB, createCommentDB } = require('../db/queries');
+const {
+    createPostDB,
+    createCommentDB,
+    getCommentsDB,
+} = require('../db/queries');
 
 const getAllPosts = () => {};
 const getAllDraftPosts = () => {};
@@ -56,7 +60,20 @@ const addComment = async (req, res) => {
     }
 };
 
-const getComments = () => {};
+const getComments = async (req, res) => {
+    const { postId } = req.params;
+
+    try {
+        const comments = await getCommentsDB(postId);
+        res.status(200).json(comments);
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error getting comments',
+            error: err.message,
+        });
+    }
+};
+
 const updatePost = () => {};
 const updatePostStatus = () => {};
 const deletePost = () => {};
