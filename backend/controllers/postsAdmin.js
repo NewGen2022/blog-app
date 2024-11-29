@@ -1,10 +1,23 @@
 const {
+    getAllPostsDB,
     createPostDB,
     createCommentDB,
     getCommentsDB,
 } = require('../db/queries');
 
-const getAllPosts = () => {};
+const getAllPosts = async (req, res) => {
+    try {
+        const posts = await getAllPostsDB();
+        res.status(200).json(posts);
+    } catch (err) {
+        console.error('Error fetching all posts:', err);
+        res.status(500).json({
+            message: 'Error fetching all posts',
+            error: err.message,
+        });
+    }
+};
+
 const getAllDraftPosts = () => {};
 const getPost = () => {};
 
