@@ -3,6 +3,7 @@ const {
     createPostDB,
     createCommentDB,
     getCommentsDB,
+    getPostDB,
 } = require('../db/queries');
 
 const getAllPosts = async (req, res) => {
@@ -29,7 +30,20 @@ const getAllDraftPosts = async (req, res) => {
         });
     }
 };
-const getPost = () => {};
+
+const getPost = async (req, res) => {
+    const { postId } = req.params;
+
+    try {
+        const post = await getPostDB(postId);
+        res.status(200).json(post);
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error getting post',
+            error: err.message,
+        });
+    }
+};
 
 const createPost = async (req, res) => {
     const { name, content, postStatus, authorId, tags } = req.body;
