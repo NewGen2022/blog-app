@@ -164,6 +164,29 @@ const getPostDB = async (postId) => {
     }
 };
 
+// UPDATE QUERIES
+const updatePostDB = async (postId, title, content) => {
+    try {
+        return await prisma.post.update({
+            where: { id: postId },
+            data: {
+                name: title,
+                content: content,
+            },
+        });
+    } catch (err) {
+        console.error('Error updating post:', err);
+        throw new Error('Error updating post from DB');
+    }
+};
+
+const updatePostStatusDB = async (postId, status) => {
+    return await prisma.post.update({
+        where: { id: postId },
+        data: { status: status },
+    });
+};
+
 // DELETE QUERIES
 const deleteRefreshTokenDB = async (refreshToken) => {
     return await prisma.refreshToken.delete({
@@ -203,6 +226,8 @@ module.exports = {
     createRefreshTokenDB,
     createPostDB,
     createCommentDB,
+    updatePostDB,
+    updatePostStatusDB,
     deleteRefreshTokenDB,
     deletePostDB,
     deleteCommentDB,
