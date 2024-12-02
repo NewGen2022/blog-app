@@ -171,6 +171,12 @@ const deleteRefreshTokenDB = async (refreshToken) => {
     });
 };
 
+const deletePostDB = async (postId) => {
+    return await prisma.post.delete({
+        where: { id: postId },
+    });
+};
+
 module.exports = {
     registerDB,
     getUserByUsernameDB,
@@ -182,4 +188,5 @@ module.exports = {
     createPostDB,
     createCommentDB,
     deleteRefreshTokenDB,
+    deletePostDB,
 };
