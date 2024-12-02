@@ -172,9 +172,25 @@ const deleteRefreshTokenDB = async (refreshToken) => {
 };
 
 const deletePostDB = async (postId) => {
-    return await prisma.post.delete({
-        where: { id: postId },
-    });
+    try {
+        return await prisma.post.delete({
+            where: { id: postId },
+        });
+    } catch (err) {
+        console.error('Error deleting post:', err);
+        throw new Error('Error deleting post from DB');
+    }
+};
+
+const deleteCommentDB = async (commentId) => {
+    try {
+        return await prisma.comment.delete({
+            where: { id: commentId },
+        });
+    } catch (err) {
+        console.error('Error deleting comment:', err);
+        throw new Error('Error deleting comment from DB');
+    }
 };
 
 module.exports = {
@@ -189,4 +205,5 @@ module.exports = {
     createCommentDB,
     deleteRefreshTokenDB,
     deletePostDB,
+    deleteCommentDB,
 };
