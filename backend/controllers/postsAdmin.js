@@ -4,6 +4,8 @@ const {
     createCommentDB,
     getCommentsDB,
     getPostDB,
+    updatePostDB,
+    updatePostStatusDB,
     deletePostDB,
     deleteCommentDB,
 } = require('../db/queries');
@@ -114,8 +116,35 @@ const getComments = async (req, res) => {
     }
 };
 
-const updatePost = () => {};
-const updatePostStatus = () => {};
+const updatePost = async (req, res) => {
+    const { postId } = req.params;
+    const { name, content } = req.body;
+
+    try {
+        await updatePostDB(postId, name, content);
+        res.status(200).json({ message: 'Post updated successfully' });
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error updating post',
+            error: err.message,
+        });
+    }
+};
+
+const updatePostStatus = async (req, res) => {
+    const { postId } = req.params;
+    const { postStatus } = req.body;
+
+    try {
+        await updatePostStatusDB(postId, postStatus);
+        res.status(200).json({ message: 'Post status updated successfully' });
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error updating post status',
+            error: err.message,
+        });
+    }
+};
 
 const deletePost = async (req, res) => {
     const { postId } = req.params;
