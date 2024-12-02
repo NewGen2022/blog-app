@@ -75,7 +75,8 @@ const createPost = async (req, res) => {
 };
 
 const addComment = async (req, res) => {
-    const { content, authorId, postId } = req.body;
+    const { content, authorId } = req.body;
+    const { postId } = req.params;
 
     if (!content) {
         return res.status(400).json({ message: 'Missing comment content' });
