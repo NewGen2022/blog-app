@@ -5,6 +5,7 @@ const {
     getCommentsDB,
     getPostDB,
     deletePostDB,
+    deleteCommentDB,
 } = require('../db/queries');
 
 const getAllPosts = async (req, res) => {
@@ -124,11 +125,24 @@ const deletePost = async (req, res) => {
     } catch (err) {
         res.status(500).json({
             message: 'Error deleting post',
+            error: err.message,
         });
     }
 };
 
-const deleteComment = () => {};
+const deleteComment = async (req, res) => {
+    const { commentId } = req.params;
+
+    try {
+        await deleteCommentDB(commentId);
+        res.status(200).json({ message: 'Comment deleted successfully' });
+    } catch (err) {
+        res.status(500).json({
+            message: 'Error deleting comment',
+            error: err.message,
+        });
+    }
+};
 
 module.exports = {
     getAllPosts,
