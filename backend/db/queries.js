@@ -153,6 +153,17 @@ const getAllPostsDB = async (status = 'PUBLISHED') => {
     }
 };
 
+const getPostDB = async (postId) => {
+    try {
+        return await prisma.post.findUnique({
+            where: { id: postId },
+        });
+    } catch (err) {
+        console.error('Error fetching post:', err);
+        throw new Error('Error fetching post from DB');
+    }
+};
+
 // DELETE QUERIES
 const deleteRefreshTokenDB = async (refreshToken) => {
     return await prisma.refreshToken.delete({
@@ -166,6 +177,7 @@ module.exports = {
     getRefreshTokenDB,
     getCommentsDB,
     getAllPostsDB,
+    getPostDB,
     createRefreshTokenDB,
     createPostDB,
     createCommentDB,
