@@ -14,7 +14,7 @@ const MainRoutes = () => {
             <Route path="/latest" element={<Latest />} />
             <Route path="/about" element={<About />} />
             <Route path="/na" element={<NotAuth />} />
-            <Route path="/:postId" element={<Post />} />
+            <Route path="/post/:postId" element={<Post />} />
         </Routes>
     );
 };
