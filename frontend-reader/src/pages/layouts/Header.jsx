@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import '../../styles/header.css';
+import '../../styles/navbar.css';
 import axios from 'axios';
 import RightNavBar from '../RightNavBar';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -106,19 +107,45 @@ const Header = () => {
             {!hideNavbar && (
                 <div id="navs">
                     <div id="nav-bar">
-                        <a href="/all" className="nav-item">
+                        <a
+                            href="/all"
+                            className={
+                                location.pathname === '/all' ? 'active' : ''
+                            }
+                        >
                             All articles
                         </a>
                         {user && user.role === 'ADMIN' ? (
-                            <a href="/admin/draft" className="nav-item">
+                            <a
+                                href="/admin/draft"
+                                className={
+                                    location.pathname === '/admin/draft'
+                                        ? 'active'
+                                        : ''
+                                }
+                            >
                                 Draft
                             </a>
                         ) : (
                             <>
-                                <a href="/latest" className="nav-item">
+                                <a
+                                    href="/latest"
+                                    className={
+                                        location.pathname === '/latest'
+                                            ? 'active'
+                                            : ''
+                                    }
+                                >
                                     Latest articles
                                 </a>
-                                <a href="/about" className="nav-item">
+                                <a
+                                    href="/about"
+                                    className={
+                                        location.pathname === '/about'
+                                            ? 'active'
+                                            : ''
+                                    }
+                                >
                                     About
                                 </a>
                             </>
