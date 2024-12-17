@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import AuthErrors from './AuthErrors';
 import { ClipLoader } from 'react-spinners';
-import Header from '../Header';
+import Layout from '../layouts/Layout';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -69,9 +69,7 @@ const Register = () => {
     };
 
     return (
-        <>
-            <Header />
-
+        <Layout>
             <form
                 id="registerForm"
                 className="form"
@@ -125,7 +123,7 @@ const Register = () => {
                     Already have an account? <a href="/auth/login">Log In</a>
                 </div>
             </form>
-        </>
+        </Layout>
     );
 };
 
