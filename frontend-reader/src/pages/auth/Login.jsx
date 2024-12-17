@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
-import Layout from '../layouts/Layout';
+import Header from '../layouts/Header';
 
 const Login = () => {
     const location = useLocation();
@@ -78,7 +78,9 @@ const Login = () => {
     }, [isRegisteredMsg]);
 
     return (
-        <Layout>
+        <>
+            <Header />
+
             {isRegisteredMsg && showSuccessMsg && (
                 <div id="successContainer">
                     <div id="successRegistrationMsg">{isRegisteredMsg}</div>
@@ -127,7 +129,7 @@ const Login = () => {
                     <a href="/auth/register">Register</a>
                 </div>
             </form>
-        </Layout>
+        </>
     );
 };
 
