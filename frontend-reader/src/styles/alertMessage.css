@@ -1,0 +1,22 @@
+.message {
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    z-index: 1002;
+    position: fixed;
+    top: 33%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.success {
+    background-color: var(--emerald-100);
+    color: var(--emerald-500);
+    border: 1px solid var(--emerald-700);
+}
+
+.error {
+    background-color: var(--soft-light-pink);
+    color: var(--dark-wine-red);
+    border: 1px solid var(--dark-wine-red);
+}
