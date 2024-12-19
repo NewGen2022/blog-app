@@ -2,8 +2,10 @@ const {
     getAllPostsDB,
     createPostDB,
     createCommentDB,
+    createTagDB,
     getCommentsDB,
     getPostDB,
+    getTagsDB,
     updatePostDB,
     updatePostStatusDB,
     deletePostDB,
@@ -102,6 +104,30 @@ const addComment = async (req, res) => {
     }
 };
 
+const createTag = async (req, res) => {
+    const { tagName } = req.body;
+
+    if (!tagName || tagName.trim() === '') {
+        return res.status(400).json({ message: 'Tag name is required' });
+    }
+
+    try {
+        await createTagDB(tagName);
+        res.status(201).json({ message: 'Tag added successfully' });
+    } catch (err) {
+        if (err.message === 'This tag already exists') {
+            return res.status(400).json({
+                message: 'This tag already exists',
+            });
+        }
+
+        res.status(500).json({
+            message: 'Error creating tag',
+            error: err.message,
+        });
+    }
+};
+
 const getComments = async (req, res) => {
     const { postId } = req.params;
 
@@ -113,6 +139,16 @@ const getComments = async (req, res) => {
             message: 'Error getting comments',
             error: err.message,
         });
+    }
+};
+
+const getTags = async (req, res) => {
+    try {
+        const tags = await getTagsDB();
+        res.status(200).json(tags);
+    } catch (err) {
+        console.error('Error fetching tags:', err);
+        res.status(500).send('Server Error');
     }
 };
 
@@ -179,8 +215,10 @@ module.exports = {
     getAllDraftPosts,
     getPost,
     createPost,
+    createTag,
     addComment,
     getComments,
+    getTags,
     updatePost,
     updatePostStatus,
     deletePost,
