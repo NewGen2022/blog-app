@@ -12,6 +12,7 @@ const useAuth = () => {
             try {
                 const decodedToken = jwtDecode(accessToken);
                 setUser({
+                    id: decodedToken.id,
                     username: decodedToken.name,
                     role: decodedToken.role,
                 });
