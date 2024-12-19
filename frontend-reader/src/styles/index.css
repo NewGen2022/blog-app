@@ -17,6 +17,8 @@
     --dark-wine-red: #58151c;
     --red: #ff0000;
     --soft-light-pink: #f8d7da;
+    --cancel-red: #a60000;
+    --light-cancel-red: #d00000;
 }
 
 body {
@@ -25,7 +27,6 @@ body {
     color: var(--emerald-50);
     padding: 0;
     margin: 0;
-    padding-top: 18vh;
 }
 
 button:hover {
@@ -48,11 +49,5 @@ button:hover {
 @media (max-width: 860px) {
     #main {
         width: 100%;
-    }
-}
-
-@media (max-width: 520px) {
-    body {
-        padding-top: 30vh;
     }
 }
