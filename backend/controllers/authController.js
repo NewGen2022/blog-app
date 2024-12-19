@@ -60,6 +60,7 @@ const loginController = async (req, res) => {
     try {
         // Generate access and refresh tokens
         const accessToken = generateAccessToken({
+            id: user.id,
             name: username,
             role: user.role,
         });
