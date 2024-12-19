@@ -1,6 +1,5 @@
 /* Container styling */
 .create-post-container {
-    max-width: 800px;
     margin: 1.5rem 50px;
     padding: 2rem;
     background: #fafafa;
@@ -86,7 +85,62 @@
     background-color: var(--emerald-500);
 }
 
-/* Responsive Design */
+.tags-input-container {
+    display: flex;
+}
+
+.tags-input-container input {
+    width: 100%;
+}
+
+.add-tag-button {
+    min-width: 100px;
+}
+
+.selected-tags {
+    margin-top: 10px;
+}
+
+.tag {
+    display: inline-flex;
+    background-color: var(--emerald-400);
+    padding: 7px 10px;
+    margin: 5px;
+    border-radius: 5px;
+    color: var(--emerald-50);
+    cursor: pointer;
+    transition: background-color 0.1s ease-in-out;
+}
+.tag:hover {
+    background-color: var(--emerald-600);
+}
+
+.remove-tag {
+    align-self: center;
+    background: none;
+    border: none;
+    padding: 0 5px 0 10px;
+    color: var(--light-cancel-red);
+    cursor: pointer;
+}
+.remove-tag:hover {
+    color: var(--red);
+}
+
+.add-tag-button {
+    padding: 5px 10px;
+    margin-left: 10px;
+    background-color: var(--emerald-400);
+    border-radius: 7px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+.add-tag-button:hover {
+    background-color: var(--emerald-500);
+}
+
 @media (max-width: 768px) {
     .create-post-container {
         padding: 1.5rem;
