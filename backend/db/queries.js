@@ -91,6 +91,11 @@ const createCommentDB = async (content, authorId, postId) => {
     }
 };
 
+const createTagDB = async (tagName) => {
+    const [tag] = await getTagByNameDB([tagName]);
+    return tag;
+};
+
 // GET QUERIES
 const getUserByUsernameDB = async (username) => {
     try {
@@ -164,6 +169,15 @@ const getPostDB = async (postId) => {
     }
 };
 
+const getTagsDB = async () => {
+    try {
+        return await prisma.tag.findMany();
+    } catch (err) {
+        console.error('Error fetching tags from DB:', err);
+        throw new Error('Error fetching tags from DB');
+    }
+};
+
 // UPDATE QUERIES
 const updatePostDB = async (postId, title, content) => {
     try {
@@ -223,9 +237,11 @@ module.exports = {
     getCommentsDB,
     getAllPostsDB,
     getPostDB,
+    getTagsDB,
     createRefreshTokenDB,
     createPostDB,
     createCommentDB,
+    createTagDB,
     updatePostDB,
     updatePostStatusDB,
     deleteRefreshTokenDB,
