@@ -1,0 +1,183 @@
+/* The container for the post details */
+.post-details-container {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* The header container with post title and author information */
+.post-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.post-header {
+    font-size: 2.5rem;
+    color: #333;
+    margin: 0;
+    font-weight: bold;
+    flex: 1;
+}
+
+.author-info {
+    text-align: right;
+    color: #777;
+    font-size: 1rem;
+}
+
+/* Tags container */
+.tags-container {
+    margin: 20px 0;
+}
+
+.tags-container ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tags-container li {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    font-size: 1rem;
+}
+
+/* Post content styling */
+.post-content {
+    font-size: 1.2rem;
+    color: #555;
+    line-height: 1.8;
+    margin: 20px 0;
+}
+
+/* Comments section styling */
+.comments-section {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid #eee;
+}
+
+/* Comments section heading */
+.comments-section h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Comment text styling */
+.comments-section p {
+    margin-top: 20px;
+    color: #555555; /* Changed to the requested color */
+}
+
+/* Individual comment styling */
+.comment {
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* Comment content */
+.comment p {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #555555; /* Updated to desired color */
+}
+
+/* Comment author styling */
+.comment .comment-author {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* Comment time styling */
+.comment .comment-time {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+/* Styling for the comment text itself */
+.comment .comment-text {
+    margin-top: 10px;
+}
+
+/* Add comment section styling */
+.add-comment-container {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+
+/* Add comment heading */
+.add-comment-container h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Add comment textarea styling */
+.add-comment-container textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    resize: vertical;
+    margin-bottom: 20px;
+    min-height: 100px;
+}
+
+/* Submit button styling */
+.add-comment-container button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* Hover effect for submit button */
+.add-comment-container button:hover {
+    background-color: #218838;
+}
+
+/* Loading spinner styling */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.loading::after {
+    content: '';
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--emerald-400);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
+}
+
+/* Spinner animation */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
