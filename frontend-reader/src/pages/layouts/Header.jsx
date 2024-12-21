@@ -129,16 +129,6 @@ const Header = () => {
                         ) : (
                             <>
                                 <a
-                                    href="/latest"
-                                    className={
-                                        location.pathname === '/latest'
-                                            ? 'active'
-                                            : ''
-                                    }
-                                >
-                                    Latest articles
-                                </a>
-                                <a
                                     href="/about"
                                     className={
                                         location.pathname === '/about'
