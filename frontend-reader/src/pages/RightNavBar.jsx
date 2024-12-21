@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/posts/modal.css';
 import AlertMessage from './layouts/AlertMessage';
 import useAlert from '../hooks/useAlert';
@@ -11,6 +11,28 @@ const RightNavBar = ({ user }) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [tagName, setTagName] = useState('');
+    const [tags, setTags] = useState([]); // State to hold all tags
+    const [loadingTags, setLoadingTags] = useState(true); // State to handle loading
+    const [selectedTags, setSelectedTags] = useState([]); // State for selected tags (filter)
+
+    // Fetch tags from the server
+    useEffect(() => {
+        const fetchTags = async () => {
+            try {
+                const response = await axios.get(
+                    'http://localhost:2020/api/posts/tags'
+                ); // Assuming this is the endpoint for tags
+                setTags(response.data); // Set tags data
+            } catch (err) {
+                setErrorMessage('Error fetching tags. Please try again later.');
+                console.error(err);
+            } finally {
+                setLoadingTags(false); // Stop loading after the request
+            }
+        };
+
+        fetchTags();
+    }, []);
 
     const handleModelOpen = () => {
         setIsModalOpen((prev) => !prev);
@@ -34,6 +56,7 @@ const RightNavBar = ({ user }) => {
                 setSuccessMessage('Tag created successfully!');
                 setTagName('');
                 setErrorMessage('');
+                setTags((prevTags) => [...prevTags, { name: tagName }]); // Add new tag to state
             }
         } catch (err) {
             if (
@@ -56,27 +79,64 @@ const RightNavBar = ({ user }) => {
         setSuccessMessage('');
     };
 
+    // Handle tag selection for filtering
+    const toggleTagSelection = (tag) => {
+        setSelectedTags((prevSelectedTags) =>
+            prevSelectedTags.includes(tag)
+                ? prevSelectedTags.filter((selectedTag) => selectedTag !== tag)
+                : [...prevSelectedTags, tag]
+        );
+    };
+
     return (
         <>
             <div id="right-nav-bar">
                 <div id="search-container">
                     <h3>Search</h3>
-                    <input id="search-container" type="search" />
+                    <input
+                        id="search-input"
+                        type="search"
+                        placeholder="Search post here..."
+                    />
                 </div>
+
                 {user && user.role === 'ADMIN' ? (
-                    <>
+                    <div id="create-add-container">
                         <a href="/admin/create" id="create-post-link">
                             Create post
                         </a>
                         <button id="add-tag-btn" onClick={handleModelOpen}>
                             Add tag
                         </button>
-                    </>
+                    </div>
                 ) : (
                     ''
                 )}
 
-                <div>All tags</div>
+                <div>
+                    <h3>All Tags</h3>
+                    {loadingTags ? (
+                        <p>Loading tags...</p>
+                    ) : tags.length > 0 ? (
+                        <div id="tags-container">
+                            {tags.map((tag, index) => (
+                                <button
+                                    key={index}
+                                    className={`tag-btn ${
+                                        selectedTags.includes(tag.name)
+                                            ? 'selected'
+                                            : ''
+                                    }`}
+                                    onClick={() => toggleTagSelection(tag.name)}
+                                >
+                                    {tag.name}
+                                </button>
+                            ))}
+                        </div>
+                    ) : (
+                        <div>No tags available</div>
+                    )}
+                </div>
             </div>
 
             {isModalOpen && (
