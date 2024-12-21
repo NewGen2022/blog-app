@@ -6,6 +6,7 @@ const {
     getCommentsDB,
     getPostDB,
     getTagsDB,
+    getTagByNameDB,
     updatePostDB,
     updatePostStatusDB,
     deletePostDB,
@@ -154,15 +155,45 @@ const getTags = async (req, res) => {
 
 const updatePost = async (req, res) => {
     const { postId } = req.params;
-    const { name, content } = req.body;
+    const { name, content, tags, status = 'DRAFT' } = req.body;
 
     try {
-        await updatePostDB(postId, name, content);
-        res.status(200).json({ message: 'Post updated successfully' });
+        if (!postId) {
+            return res.status(400).json({ message: 'Post ID is required.' });
+        }
+        if (!name || !content) {
+            return res
+                .status(400)
+                .json({ message: 'Name and content are required.' });
+        }
+        if (tags && !Array.isArray(tags)) {
+            return res.status(400).json({ message: 'Tags must be an array.' });
+        }
+
+        // Normalize and deduplicate tags
+        const normalizedTags = tags
+            ? Array.from(new Set(tags.map((tag) => tag.toLowerCase())))
+            : [];
+
+        // Get existing tags and ensure they exist in the database
+        const tagObjects = await getTagByNameDB(normalizedTags);
+
+        // Update the post and associated tags in the database
+        await updatePostDB(postId, name, content, status, tagObjects);
+
+        // Optionally, fetch the updated post to return
+        const updatedPost = await getPostDB(postId);
+
+        // Send a success response with the updated post
+        res.status(200).json({
+            message: 'Post updated successfully',
+            post: updatedPost,
+        });
     } catch (err) {
+        console.error('Error updating post:', err);
         res.status(500).json({
             message: 'Error updating post',
-            error: err.message,
+            error: err.message || 'Unknown error occurred.',
         });
     }
 };
