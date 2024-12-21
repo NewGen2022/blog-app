@@ -57,14 +57,111 @@
 #right-nav-bar {
     position: fixed;
     bottom: 0;
-    right: 0;
     width: 100%;
     background-color: var(--emerald-900);
     z-index: 1000;
     padding: 10px 20px;
     color: var(--emerald-100);
     display: flex;
+    flex-direction: column;
     gap: 10px;
+}
+
+#search-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#search-input {
+    outline: none;
+    margin-top: 10px;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border: 2px solid var(--emerald-700);
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    max-width: 90%;
+}
+
+#search-input::placeholder {
+    color: #555555;
+}
+
+#search-input:focus {
+    border-color: var(--emerald-300);
+    box-shadow: 0 0 5px var(--emerald-300);
+}
+
+#search-input::-webkit-search-cancel-button {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 30%;
+    background: var(--emerald-500);
+    border: 2px solid var(--emerald-300);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#search-input::-webkit-search-cancel-button:hover {
+    border-color: var(--dark-wine-red);
+    background: var(--soft-light-pink);
+}
+
+#create-add-container {
+    display: flex;
+    align-items: flex-end;
+    text-align: center;
+    gap: 10px;
+}
+
+#create-post-link,
+#add-tag-btn {
+    display: flex;
+    align-items: center;
+    color: var(--emerald-50);
+    background-color: var(--emerald-500);
+    text-decoration: none;
+    font-size: 0.9em;
+    padding: 15px;
+    border-radius: 7px;
+    transition: all 0.3s ease-in-out;
+}
+#create-post-link:hover,
+#add-tag-btn:hover {
+    background-color: var(--emerald-300);
+    color: var(--emerald-800);
+}
+
+#add-tag-btn {
+    outline: none;
+    border: none;
+}
+
+#tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.tag-btn {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tag-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.tag-btn.selected {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
 }
 
 @media (min-width: 861px) {
@@ -72,19 +169,18 @@
         right: 0;
         width: 20%;
         height: calc(100% - 21%);
-        flex-direction: column;
     }
 }
 
 @media (max-width: 620px) {
     #navs {
         width: 40%;
-        margin-left: 10px;
     }
 
     #nav-bar {
         gap: 10px;
         flex-direction: column;
+        margin-left: 30px;
     }
 }
 
