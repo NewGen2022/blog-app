@@ -14,6 +14,7 @@ const Post = () => {
     const [newComment, setNewComment] = useState(''); // To store new comment input
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [isLoadingComments, setIsLoadingComments] = useState(false);
 
     // Fetch the post details
     useEffect(() => {
@@ -32,15 +33,21 @@ const Post = () => {
 
     // Fetch comments for the post
     useEffect(() => {
-        axios
-            .get(`http://localhost:2020/api/posts/${postId}/comments`)
-            .then((response) => {
-                setComments(response.data || []);
-            })
-            .catch(() => {
-                setErrorMessage('Error fetching comments. Try later.');
-            });
-    }, [postId]);
+        if (!isLoadingComments) {
+            setIsLoadingComments(true);
+            axios
+                .get(`http://localhost:2020/api/posts/${postId}/comments`)
+                .then((response) => {
+                    setComments(response.data || []);
+                })
+                .catch(() => {
+                    setErrorMessage('Error fetching comments. Try later.');
+                })
+                .finally(() => {
+                    setIsLoadingComments(false);
+                });
+        }
+    }, [postId, isLoadingComments]);
 
     // Handle comment submission
     const handleCommentSubmit = async (e) => {
