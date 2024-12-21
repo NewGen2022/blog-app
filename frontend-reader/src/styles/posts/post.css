@@ -172,6 +172,10 @@
     animation: spin 2s linear infinite;
 }
 
+textarea {
+    resize: vertical;
+}
+
 /* Spinner animation */
 @keyframes spin {
     0% {
