@@ -162,6 +162,13 @@ const getPostDB = async (postId) => {
     try {
         return await prisma.post.findUnique({
             where: { id: postId },
+            include: {
+                postTag: {
+                    include: {
+                        tag: true, // Include the tag data in the result
+                    },
+                },
+            },
         });
     } catch (err) {
         console.error('Error fetching post:', err);
@@ -179,18 +186,39 @@ const getTagsDB = async () => {
 };
 
 // UPDATE QUERIES
-const updatePostDB = async (postId, title, content) => {
+const updatePostDB = async (postId, name, content, status, tags) => {
     try {
-        return await prisma.post.update({
+        const tagObjects = await getTagByNameDB(tags);
+
+        const post = await prisma.post.update({
             where: { id: postId },
             data: {
-                name: title,
+                name: name,
                 content: content,
+                status: status,
+                updatedAt: new Date(),
+                postTag: {
+                    deleteMany: {}, // Clear existing tags
+                    create: tagObjects.map((tag) => ({
+                        tag: {
+                            connect: { id: tag.id },
+                        },
+                    })),
+                },
+            },
+            include: {
+                postTag: {
+                    include: {
+                        tag: true, // Include tags in the response after update
+                    },
+                },
             },
         });
+
+        return post;
     } catch (err) {
         console.error('Error updating post:', err);
-        throw new Error('Error updating post from DB');
+        throw new Error('Error updating post in DB');
     }
 };
 
@@ -238,6 +266,7 @@ module.exports = {
     getAllPostsDB,
     getPostDB,
     getTagsDB,
+    getTagByNameDB,
     createRefreshTokenDB,
     createPostDB,
     createCommentDB,
