@@ -94,9 +94,8 @@ const addComment = async (req, res) => {
     }
 
     try {
-        await createCommentDB(content, authorId, postId);
-
-        res.status(201).json({ message: 'Comment added successfully' });
+        const newComment = await createCommentDB(content, authorId, postId);
+        res.status(201).json(newComment);
     } catch (err) {
         res.status(500).json({
             message: 'Error adding comment',
